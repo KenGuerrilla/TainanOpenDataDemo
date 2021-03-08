@@ -1,7 +1,7 @@
 package com.itl.kg.app.tainanopendatademo.module
 
+import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
 import io.reactivex.rxjava3.core.Observable
-import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,6 +13,6 @@ interface ApiService {
             @Query("type") type: String = "1",
             @Query("ftype") ftype: String = "1",
             @Query("exportTo") exportTo: String = "2"
-    ): Observable<ResponseBody>
+    ): Observable<List<ParkingResp>>
 
 }

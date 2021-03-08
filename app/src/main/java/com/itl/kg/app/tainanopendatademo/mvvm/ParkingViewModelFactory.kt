@@ -2,10 +2,13 @@ package com.itl.kg.app.tainanopendatademo.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
 
-
-class ParkingViewModelFactory() : ViewModelProvider.Factory {
+// TODO 用Hilt實作DI
+class ParkingViewModelFactory(
+        private val loadingMessageHandler: LoadingMessageHandler
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ParkingViewModel() as T
+        return ParkingViewModel(loadingMessageHandler) as T
     }
 }

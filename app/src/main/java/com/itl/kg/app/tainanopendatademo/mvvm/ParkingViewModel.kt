@@ -1,37 +1,36 @@
 package com.itl.kg.app.tainanopendatademo.mvvm
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import com.itl.kg.app.tainanopendatademo.module.ClientManager
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import okhttp3.ResponseBody
+import com.itl.kg.app.tainanopendatademo.module.DefaultObserverImp
+import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
+import com.itl.kg.app.tainanopendatademo.module.ObserverResponseListener
+import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
 
-
-class ParkingViewModel : ViewModel() {
+class ParkingViewModel(
+        private val loadingMessageHandler: LoadingMessageHandler
+) : ViewModel() {
 
     companion object {
         const val TAG = "ParkingViewModel"
     }
 
+    val freeParkingLiveData: MutableLiveData<List<ParkingResp>> = MutableLiveData()
+
     fun getFreeParkingList() {
-        ClientManager.getFreePublicParking(object : Observer<ResponseBody> {
-            override fun onComplete() {
-                Log.d(TAG, "onComplete")
-            }
+        ClientManager.getFreePublicParking(getFreeParkingListDefaultObs())
+    }
 
-            override fun onSubscribe(d: Disposable?) {
-                Log.d(TAG, "onSubscribe")
-            }
 
-            override fun onNext(t: ResponseBody) {
-                Log.d(TAG, "onNext: ${t.string()}")
-            }
-
-            override fun onError(e: Throwable?) {
-                Log.d(TAG, "onError")
-            }
-        })
+    private fun getFreeParkingListDefaultObs(): DefaultObserverImp<List<ParkingResp>> {
+        return DefaultObserverImp(loadingMessageHandler,
+                object : ObserverResponseListener<List<ParkingResp>> {
+                    override fun onReceiveData(t: List<ParkingResp>) {
+                        freeParkingLiveData.value = t
+                    }
+                })
     }
 
 }

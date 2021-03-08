@@ -1,12 +1,7 @@
-package com.itl.kg.app.tainanopendatademo.module
+package com.itl.kg.app.tainanopendatademo.module.unit
 
 import com.google.gson.annotations.SerializedName
 
-
-data class ParkingListData (
-    val version: String,
-    val list: List<ParkingResp>
-)
 
 data class ParkingResp(
         @SerializedName("一般大型車") val standardFullSizeCar: Int,
