@@ -19,9 +19,8 @@ object MainListConfig {
 
     init {
         list.apply {
-            add(MainListItem("Test item title", "Test item message", MainFragmentDirections.actionMainFragmentToParkingActivity()))
+            add(MainListItem("台南市停車場資料", "台南市 Open Data Demo - 停車場", MainFragmentDirections.actionMainFragmentToParkingActivity()))
         }
-
     }
 }
 
