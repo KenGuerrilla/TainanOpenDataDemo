@@ -19,4 +19,8 @@ class ParkingViewModel(
         repository.requestFreeParkingList()
     }
 
+    fun parserItemLatLng(latLng: String): Pair<String, String> {
+        val buffer = latLng.split("，")
+        return Pair(buffer[0], buffer[1])
+    }
 }

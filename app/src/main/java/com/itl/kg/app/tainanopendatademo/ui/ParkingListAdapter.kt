@@ -1,6 +1,8 @@
 package com.itl.kg.app.tainanopendatademo.ui
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.itl.kg.app.tainanopendatademo.databinding.ListParkingItemBinding
@@ -10,6 +12,16 @@ import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
 class ParkingListAdapter(
         val list: MutableList<ParkingResp>
 ) : RecyclerView.Adapter<ParkingListAdapter.ParkingViewHolder>() {
+
+    companion object {
+        const val TAG = "ParkingListAdapter"
+    }
+
+    private var itemClickListener: ItemClickListener? = null
+
+    fun setOnItemClick(listener: ItemClickListener) {
+        this.itemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,6 +34,10 @@ class ParkingListAdapter(
 
     override fun onBindViewHolder(holder: ParkingViewHolder, position: Int) {
         holder.bind(list[position])
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "onBindViewHolder: Clicked!!")
+            itemClickListener?.onItemClick(it, list[position])
+        }
     }
 
     inner class ParkingViewHolder(
@@ -32,7 +48,8 @@ class ParkingListAdapter(
             itemBinding.mParkingItemAddressTv.text = resp.address
         }
     }
+}
 
-
-
+interface ItemClickListener {
+    fun onItemClick(view: View, item: ParkingResp)
 }
