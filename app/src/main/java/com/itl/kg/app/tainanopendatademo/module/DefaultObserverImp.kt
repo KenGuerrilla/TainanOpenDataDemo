@@ -4,7 +4,7 @@ import android.util.Log
 import io.reactivex.rxjava3.observers.DefaultObserver
 
 class DefaultObserverImp <T>(
-    private val loadingHandler: LoadingMessageHandler,
+    private val loadingHandler: LoadingMessageHandler?,
     private val responseListener: ObserverResponseListener<T>
 ) : DefaultObserver<T>(), ProgressCancelInterface {
 
@@ -14,7 +14,7 @@ class DefaultObserverImp <T>(
 
     override fun onStart() {
         super.onStart()
-        loadingHandler.showLoadingView()
+        loadingHandler?.showLoadingView()
     }
 
     override fun onNext(t: T?) {
@@ -25,13 +25,13 @@ class DefaultObserverImp <T>(
 
     override fun onComplete() {
         // dialog dismiss
-        loadingHandler.dismissLoadingView()
+        loadingHandler?.dismissLoadingView()
     }
 
     // TODO 如果資料在GSON Adapter轉換錯誤時無法呼叫這個方法，待釐清
     override fun onError(e: Throwable?) {
         Log.d(TAG, "onError: ${e?.localizedMessage}")
-        loadingHandler.dismissLoadingView()
+        loadingHandler?.dismissLoadingView()
     }
 
     override fun cancelObserver() {

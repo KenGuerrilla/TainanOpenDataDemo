@@ -14,6 +14,7 @@ import com.itl.kg.app.tainanopendatademo.databinding.FragmentParkingListBinding
 import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
 import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModel
 import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModelFactory
+import com.itl.kg.app.tainanopendatademo.repository.ParkingRepository
 
 /**
  *
@@ -32,7 +33,8 @@ class ParkingListFragment : Fragment() {
     }
 
     private val parkingViewModel: ParkingViewModel by activityViewModels {
-        ParkingViewModelFactory(LoadingMessageHandler(parentFragmentManager))
+        val repository = ParkingRepository(LoadingMessageHandler(parentFragmentManager))
+        ParkingViewModelFactory(repository)
     }
 
     private var _binding: FragmentParkingListBinding? = null
@@ -55,7 +57,7 @@ class ParkingListFragment : Fragment() {
     }
 
     private fun initLiveData() {
-        parkingViewModel.freeParkingLiveData.observe(viewLifecycleOwner, Observer {
+        parkingViewModel.getFreeParkingLiveData().observe(viewLifecycleOwner, Observer {
             Log.d(TAG, "initLiveData ${it.size}")
             adapter.list.addAll(it)
             adapter.notifyDataSetChanged()

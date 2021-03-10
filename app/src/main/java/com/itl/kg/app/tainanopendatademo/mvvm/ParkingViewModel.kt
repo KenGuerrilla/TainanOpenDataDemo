@@ -1,36 +1,22 @@
 package com.itl.kg.app.tainanopendatademo.mvvm
 
-import androidx.lifecycle.MutableLiveData
-
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.itl.kg.app.tainanopendatademo.module.ClientManager
-import com.itl.kg.app.tainanopendatademo.module.DefaultObserverImp
-import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
-import com.itl.kg.app.tainanopendatademo.module.ObserverResponseListener
 import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
+import com.itl.kg.app.tainanopendatademo.repository.ParkingRepository
 
 class ParkingViewModel(
-        private val loadingMessageHandler: LoadingMessageHandler
+        private val repository: ParkingRepository
 ) : ViewModel() {
 
     companion object {
         const val TAG = "ParkingViewModel"
     }
 
-    val freeParkingLiveData: MutableLiveData<List<ParkingResp>> = MutableLiveData()
+    fun getFreeParkingLiveData(): LiveData<List<ParkingResp>> = repository.parkingListLiveData
 
     fun getFreeParkingList() {
-        ClientManager.getFreePublicParking(getFreeParkingListDefaultObs())
-    }
-
-
-    private fun getFreeParkingListDefaultObs(): DefaultObserverImp<List<ParkingResp>> {
-        return DefaultObserverImp(loadingMessageHandler,
-                object : ObserverResponseListener<List<ParkingResp>> {
-                    override fun onReceiveData(t: List<ParkingResp>) {
-                        freeParkingLiveData.value = t
-                    }
-                })
+        repository.requestFreeParkingList()
     }
 
 }
