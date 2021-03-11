@@ -15,7 +15,10 @@ import com.itl.kg.app.tainanopendatademo.unit.ParkingResp
 interface ParkingListDao {
 
     @Query("SELECT * FROM freeParkingListTable")
-    fun getFreeParkingList() : LiveData<List<ParkingResp>>
+    fun getFreeParkingListLiveData() : LiveData<List<ParkingResp>>
+
+    @Query("SELECT * FROM freeParkingListTable")
+    fun requestFreeParkingList(): List<ParkingResp>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllFreeParkingList(list: List<ParkingResp>)

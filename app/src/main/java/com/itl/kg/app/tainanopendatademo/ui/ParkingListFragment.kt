@@ -3,6 +3,9 @@ package com.itl.kg.app.tainanopendatademo.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,20 +59,36 @@ class ParkingListFragment : Fragment() {
 
         _binding = FragmentParkingListBinding.inflate(inflater, container , false)
 
+        initEditTextListener()
         initListAdapter()
-
         initLiveData()
 
         return binding.root
     }
 
+    private fun initEditTextListener() {
+        binding.mSearchEt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                refreshAdapterList(parkingViewModel.searchItem(s.toString()))
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+    }
+
+    private fun refreshAdapterList(list: List<ParkingResp>) {
+        adapter.list.clear()
+        adapter.list.addAll(list)
+        adapter.notifyDataSetChanged()
+    }
+
     private fun initLiveData() {
-        parkingViewModel.getFreeParkingLiveData().observe(viewLifecycleOwner, Observer {
+        parkingViewModel.parkingListLiveData.observe(viewLifecycleOwner, Observer {
             if(it.isEmpty()) { // 如果資料庫是空的則更新資料庫資料
                 parkingViewModel.updateFreeParkingList()
             } else {
-                adapter.list.addAll(it)
-                adapter.notifyDataSetChanged()
+                binding.mSearchEt.setText("")
+                refreshAdapterList(it)
             }
         })
     }

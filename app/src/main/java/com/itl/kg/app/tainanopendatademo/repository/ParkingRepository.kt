@@ -16,9 +16,9 @@ class ParkingRepository private constructor(
 ) {
 
     // LiveData會在註冊之後立刻回應DB的資料
-    val freeParkingListLiveData: LiveData<List<ParkingResp>> = dao.getFreeParkingList()
+    val freeParkingListLiveData: LiveData<List<ParkingResp>> = dao.getFreeParkingListLiveData()
 
-    fun requestFreeParkingList() {
+    fun updateFreeParkingList() {
         updateParkingList()
     }
 
@@ -38,8 +38,6 @@ class ParkingRepository private constructor(
                     }
                 })
     }
-
-    fun getFreeParkingList() = dao.getFreeParkingList()
 
     companion object {
 
