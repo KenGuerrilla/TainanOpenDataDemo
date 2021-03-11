@@ -1,6 +1,6 @@
-package com.itl.kg.app.tainanopendatademo.module
+package com.itl.kg.app.tainanopendatademo.restfulApi
 
-import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
+import com.itl.kg.app.tainanopendatademo.unit.ParkingResp
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

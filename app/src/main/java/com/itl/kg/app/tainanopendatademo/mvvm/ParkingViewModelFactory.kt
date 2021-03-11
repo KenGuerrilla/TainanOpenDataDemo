@@ -2,7 +2,6 @@ package com.itl.kg.app.tainanopendatademo.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
 import com.itl.kg.app.tainanopendatademo.repository.ParkingRepository
 
 // TODO 用Hilt實作DI

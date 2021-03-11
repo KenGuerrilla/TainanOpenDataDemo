@@ -1,8 +1,24 @@
-package com.itl.kg.app.tainanopendatademo.module.unit
+package com.itl.kg.app.tainanopendatademo.unit
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ *
+ *  這組API資料有點麻煩，原因是能夠當鍵值的codeName欄位會出現相同的字串，且並非統一的格式
+ *  因此使用多組欄位來作為複合鍵值(composite primary key)使用，可參考下列文件
+ *
+ *  參考文件：https://developer.android.com/training/data-storage/room/defining-data
+ *
+ *  如果API回應的內容欄位有null，欄位變數要允許為null
+ *
+ */
+
+@Entity(
+    tableName = "freeParkingListTable",
+    primaryKeys = ["codeName", "name", "latLng"]
+)
 data class ParkingResp(
         @SerializedName("一般大型車") val standardFullSizeCar: Int,
         @SerializedName("一般小型車") val standardCompactCar: Int,
@@ -13,8 +29,8 @@ data class ParkingResp(
         @SerializedName("停車場型態") val type: String,
         @SerializedName("即時車位") val realtimeSpace: Int,
         @SerializedName("婦幼者小型車") val parentChildSmallCar: Int,
-        @SerializedName("收費時間") val chargePeriod: String,
-        @SerializedName("收費費率") val charge: String,
+        @SerializedName("收費時間") var chargePeriod: String?,
+        @SerializedName("收費費率") var charge: String?,
         @SerializedName("經緯度") val latLng: String,
         @SerializedName("綠能小型車") val ecoSmallCar: Int,
         @SerializedName("身障者小型車") val disabledCompactCar: Int,

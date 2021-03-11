@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt' // kotlin kapt plugins
     id 'androidx.navigation.safeargs.kotlin'
 }
 
@@ -51,13 +52,23 @@ dependencies {
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
 
+    // Fragment KTX
+    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    // Androidx Jetpack Room components
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+
+    // Room 一定要加這一行，否則無法自動產生 AppDatabase_Impl
+    kapt "androidx.room:room-compiler:$roomVersion"
+
 
     // Androidx Jetpack Navigation components
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"

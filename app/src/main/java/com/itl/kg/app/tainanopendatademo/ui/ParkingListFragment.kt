@@ -3,7 +3,6 @@ package com.itl.kg.app.tainanopendatademo.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,19 +12,22 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itl.kg.app.tainanopendatademo.databinding.FragmentParkingListBinding
-import com.itl.kg.app.tainanopendatademo.module.LoadingMessageHandler
-import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
+import com.itl.kg.app.tainanopendatademo.restfulApi.LoadingMessageHandler
+import com.itl.kg.app.tainanopendatademo.unit.ParkingResp
 import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModel
 import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModelFactory
 import com.itl.kg.app.tainanopendatademo.repository.ParkingRepository
+import com.itl.kg.app.tainanopendatademo.repository.ParkingListDatabase
 
 /**
  *
  *  資料以清單方式呈現，可做關鍵字分類
  *
- *  清單項目可點擊Intent至GoogleMap導航
+ *  可點擊項目進入DetailFragment
  *
- *  需要實作一個機制，同時更新四組API資料，包含免費公有、收費公有以、民營以及路邊停車格
+ *  將停車場資料存入Local DB
+ *
+ *  進入頁面可檢查資料版本，需要實作資料版本號 ( 關連式資料庫 )
  *
  */
 
@@ -36,7 +38,9 @@ class ParkingListFragment : Fragment() {
     }
 
     private val parkingViewModel: ParkingViewModel by activityViewModels {
-        val repository = ParkingRepository(LoadingMessageHandler(parentFragmentManager))
+        // TODO 實作Hilt
+        val dao = ParkingListDatabase.getInstance(requireContext().applicationContext).parkingItemDao()
+        val repository = ParkingRepository.getInstance(LoadingMessageHandler(parentFragmentManager), dao)
         ParkingViewModelFactory(repository)
     }
 
@@ -61,9 +65,12 @@ class ParkingListFragment : Fragment() {
 
     private fun initLiveData() {
         parkingViewModel.getFreeParkingLiveData().observe(viewLifecycleOwner, Observer {
-            Log.d(TAG, "initLiveData ${it.size}")
-            adapter.list.addAll(it)
-            adapter.notifyDataSetChanged()
+            if(it.isEmpty()) { // 如果資料庫是空的則更新資料庫資料
+                parkingViewModel.updateFreeParkingList()
+            } else {
+                adapter.list.addAll(it)
+                adapter.notifyDataSetChanged()
+            }
         })
     }
 
@@ -103,11 +110,6 @@ class ParkingListFragment : Fragment() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        parkingViewModel.getFreeParkingList()
     }
 
 }

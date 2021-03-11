@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.itl.kg.app.tainanopendatademo.databinding.ListParkingItemBinding
-import com.itl.kg.app.tainanopendatademo.module.unit.ParkingResp
+import com.itl.kg.app.tainanopendatademo.unit.ParkingResp
 
 
 class ParkingListAdapter(

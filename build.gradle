@@ -22,6 +22,8 @@ buildscript {
 
         navigationVersion = "2.3.3"
 
+        roomVersion = '2.2.5'
+
         // Test
         junitVersion = "4.13.2"
         junitExtVersion = "1.1.2"
