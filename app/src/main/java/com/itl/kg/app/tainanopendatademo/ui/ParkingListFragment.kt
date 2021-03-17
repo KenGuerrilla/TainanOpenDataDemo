@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -108,7 +107,9 @@ class ParkingListFragment : Fragment() {
     private fun initItemListener(): ItemClickListener {
         return object : ItemClickListener{
             override fun onItemClick(view: View, item: ParkingResp) {
-                startIntentToGoogleMap(item)
+                item.latLng?.run {
+                    startIntentToGoogleMap(this)
+                }
             }
         }
     }
@@ -122,8 +123,8 @@ class ParkingListFragment : Fragment() {
      *
      */
 
-    private fun startIntentToGoogleMap(item: ParkingResp) {
-        val latLng = parkingViewModel.parserItemLatLng(item.latLng)
+    private fun startIntentToGoogleMap(latlng: String) {
+        val latLng = parkingViewModel.parserItemLatLng(latlng)
         val gmmIntentUri =
                 Uri.parse("https://www.google.com/maps/dir/?api=1&destination=${latLng.first},${latLng.second}&travelmode=driving")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)

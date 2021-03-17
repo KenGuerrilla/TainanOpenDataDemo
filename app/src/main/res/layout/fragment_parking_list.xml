@@ -10,27 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/mSearchEt"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/mSearchCarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="搜尋關鍵字"
-            android:lines="1"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:background="@color/grey_400"
             app:layout_constraintTop_toBottomOf="@id/mParkingListRv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:id="@+id/mSearchEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:layout_margin="2dp"/>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mParkingListRv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/mSearchEt"
+            app:layout_constraintBottom_toTopOf="@id/mSearchCarView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-             />
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

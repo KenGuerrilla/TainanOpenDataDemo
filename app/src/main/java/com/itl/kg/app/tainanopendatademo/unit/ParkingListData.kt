@@ -17,7 +17,7 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(
     tableName = "freeParkingListTable",
-    primaryKeys = ["codeName", "name", "latLng"]
+    primaryKeys = ["codeName", "name"]
 )
 data class ParkingResp(
         @SerializedName("一般大型車") val standardFullSizeCar: Int,
@@ -29,9 +29,9 @@ data class ParkingResp(
         @SerializedName("停車場型態") val type: String,
         @SerializedName("即時車位") val realtimeSpace: Int,
         @SerializedName("婦幼者小型車") val parentChildSmallCar: Int,
-        @SerializedName("收費時間") var chargePeriod: String?,
-        @SerializedName("收費費率") var charge: String?,
-        @SerializedName("經緯度") val latLng: String,
+        @SerializedName("收費時間") val chargePeriod: String?,
+        @SerializedName("收費費率") val charge: String?,
+        @SerializedName("經緯度") val latLng: String?,
         @SerializedName("綠能小型車") val ecoSmallCar: Int,
         @SerializedName("身障者小型車") val disabledCompactCar: Int,
         @SerializedName("身障者機車") val disabledBike: Int

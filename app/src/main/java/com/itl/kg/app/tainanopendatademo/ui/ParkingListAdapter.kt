@@ -1,6 +1,5 @@
 package com.itl.kg.app.tainanopendatademo.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +34,6 @@ class ParkingListAdapter(
     override fun onBindViewHolder(holder: ParkingViewHolder, position: Int) {
         holder.bind(list[position])
         holder.itemView.setOnClickListener {
-            Log.d(TAG, "onBindViewHolder: Clicked!!")
             itemClickListener?.onItemClick(it, list[position])
         }
     }
