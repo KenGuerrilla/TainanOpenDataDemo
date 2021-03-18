@@ -1,4 +1,4 @@
-package com.itl.kg.app.tainanopendatademo.ui
+package com.itl.kg.app.tainanopendatademo.ui.parkingList
 
 import android.view.LayoutInflater
 import android.view.View

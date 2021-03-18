@@ -7,7 +7,16 @@
 
     <fragment
         android:id="@+id/parkingListFragment"
-        android:name="com.itl.kg.app.tainanopendatademo.ui.ParkingListFragment"
+        android:name="com.itl.kg.app.tainanopendatademo.ui.parkingList.ParkingListFragment"
         android:label="fragment_parking_list"
-        tools:layout="@layout/fragment_parking_list" />
+        tools:layout="@layout/fragment_parking_list" >
+        <action
+            android:id="@+id/action_parkingListFragment_to_parkingMapsFragment"
+            app:destination="@id/parkingMapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parkingMapsFragment"
+        android:name="com.itl.kg.app.tainanopendatademo.ui.map.ParkingMapsFragment"
+        android:label="fragment_parking_maps"
+        tools:layout="@layout/fragment_parking_maps" />
 </navigation>

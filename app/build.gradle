@@ -64,7 +64,12 @@ dependencies {
     // Androidx Jetpack Room components
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
+
+    // Google services and map
+    implementation "com.google.android.gms:play-services-maps:$playServicesMapVersion"
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
     // Room 一定要加這一行，否則無法自動產生 AppDatabase_Impl
     kapt "androidx.room:room-compiler:$roomVersion"
@@ -89,6 +94,7 @@ dependencies {
 
     // PermissionVersion
     implementation "pub.devrel:easypermissions:$easyPermissionVersion"
+    implementation 'com.vmadalin:easypermissions-ktx:0.1.0'
 
     // Test
     testImplementation "junit:junit:$junitVersion"

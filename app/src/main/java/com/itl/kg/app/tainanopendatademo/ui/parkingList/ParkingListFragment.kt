@@ -1,4 +1,4 @@
-package com.itl.kg.app.tainanopendatademo.ui
+package com.itl.kg.app.tainanopendatademo.ui.parkingList
 
 import android.content.Intent
 import android.net.Uri
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itl.kg.app.tainanopendatademo.databinding.FragmentParkingListBinding
@@ -49,7 +50,10 @@ class ParkingListFragment : Fragment() {
     private var _binding: FragmentParkingListBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = ParkingListAdapter(mutableListOf())
+    private val adapter =
+        ParkingListAdapter(
+            mutableListOf()
+        )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,10 +63,17 @@ class ParkingListFragment : Fragment() {
         _binding = FragmentParkingListBinding.inflate(inflater, container , false)
 
         initEditTextListener()
+        initButtonListener()
         initListAdapter()
         initLiveData()
 
         return binding.root
+    }
+
+    private fun initButtonListener() {
+        binding.mToMapBtn.setOnClickListener {
+            findNavController().navigate(ParkingListFragmentDirections.actionParkingListFragmentToParkingMapsFragment())
+        }
     }
 
     private fun initEditTextListener() {
@@ -105,7 +116,8 @@ class ParkingListFragment : Fragment() {
     }
 
     private fun initItemListener(): ItemClickListener {
-        return object : ItemClickListener{
+        return object :
+            ItemClickListener {
             override fun onItemClick(view: View, item: ParkingResp) {
                 item.latLng?.run {
                     startIntentToGoogleMap(this)

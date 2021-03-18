@@ -86,3 +86,7 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+#Google map for android api key
+google_maps_api.xml
+

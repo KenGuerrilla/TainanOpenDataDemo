@@ -10,9 +10,17 @@ buildscript {
         materialVersion = "1.3.0"
         constraintlayoutVersion = "2.0.4"
         fragmentKtxVersion = "1.3.0"
-
         lifecycleVersion = "2.3.0"
 
+        // JetPack
+        navigationVersion = "2.3.3"
+        roomVersion = '2.2.5'
+
+        // Map and location
+        playServicesMapVersion = "17.0.0"
+        playServicesLocationVersion = "18.0.0"
+
+        // Network
         retrofitVersion = "2.9.0"
         okhttpVersion = "3.12.1"
         rxJavaVersion = "3.0.0"
@@ -20,9 +28,7 @@ buildscript {
 
         easyPermissionVersion = "3.0.0"
 
-        navigationVersion = "2.3.3"
 
-        roomVersion = '2.2.5'
 
         // Test
         junitVersion = "4.13.2"
