@@ -2,9 +2,7 @@ package com.itl.kg.app.tainanopendatademo.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.location.Location
-import android.location.LocationProvider
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -24,6 +22,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.itl.kg.app.tainanopendatademo.R
 import com.itl.kg.app.tainanopendatademo.databinding.FragmentParkingMapsBinding
 import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModel
@@ -31,6 +31,7 @@ import com.itl.kg.app.tainanopendatademo.mvvm.ParkingViewModelFactory
 import com.itl.kg.app.tainanopendatademo.repository.ParkingListDatabase
 import com.itl.kg.app.tainanopendatademo.repository.ParkingRepository
 import com.itl.kg.app.tainanopendatademo.restfulApi.LoadingMessageHandler
+import com.itl.kg.app.tainanopendatademo.unit.ParkingResp
 
 
 /**
@@ -69,6 +70,8 @@ class ParkingMapsFragment : Fragment() {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
+    private val markerList = mutableListOf<Marker>()
+
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         // 每次進來都會檢查有沒有權限
         if (it) {
@@ -88,9 +91,8 @@ class ParkingMapsFragment : Fragment() {
 
             mGoogleMap = googleMap
 
-            parkingViewModel.parkingListLiveData.observe(viewLifecycleOwner, Observer{
-//            Log.d(TAG, "initLiveData in map init: $it")
-            })
+            initLiveData()
+
             requestLocationPermission()
             initMapSetting()
         }
@@ -125,7 +127,16 @@ class ParkingMapsFragment : Fragment() {
 
         _binding = FragmentParkingMapsBinding.inflate(inflater, container, false)
         initViewListener()
+        initLiveData()
         return binding.root
+    }
+
+    private fun initLiveData() {
+        parkingViewModel.parkingListLiveData.observe(viewLifecycleOwner, Observer{
+            for (item in it) {
+                setMarker(item)
+            }
+        })
     }
 
     @SuppressLint("MissingPermission")
@@ -144,6 +155,26 @@ class ParkingMapsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         resultLauncher.unregister()
+    }
+
+    private fun setMarker(item: ParkingResp) {
+
+        item.latLng?.run {
+            val pair = parkingViewModel.parserItemLatLng(item.latLng)
+
+            val latlng = LatLng(pair.first.toDouble(), pair.second.toDouble()) // TODO 要做嚴謹的檢查
+
+            val option = MarkerOptions()
+                    .position(latlng)
+                    .title(item.name)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_black))
+
+            mGoogleMap?.run {
+                val marker = addMarker(option)
+                markerList.add(marker)
+            }
+        }
+        Log.d(TAG, "setMarker: ${markerList.size}")
     }
 
     // 移動鏡頭
