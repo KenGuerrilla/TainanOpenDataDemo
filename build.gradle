@@ -27,6 +27,7 @@ buildscript {
         gsonVersion = "2.8.6"
 
         easyPermissionVersion = "3.0.0"
+        easyPermissionKtxVersion = "0.1.0"
 
 
 

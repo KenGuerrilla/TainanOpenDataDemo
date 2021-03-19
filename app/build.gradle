@@ -37,6 +37,16 @@ android {
         viewBinding true
     }
 
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def date = new Date()
+                    def formattedDate = date.format('yyyyMMdd')
+                    outputFileName = new File("TainanOpenDataDemo_ver." + variant.versionName + "_" + formattedDate + ".akp")
+            }
+    }
+
 }
 
 dependencies {
@@ -94,7 +104,7 @@ dependencies {
 
     // PermissionVersion
     implementation "pub.devrel:easypermissions:$easyPermissionVersion"
-    implementation 'com.vmadalin:easypermissions-ktx:0.1.0'
+    implementation "com.vmadalin:easypermissions-ktx:$easyPermissionKtxVersion"
 
     // Test
     testImplementation "junit:junit:$junitVersion"
