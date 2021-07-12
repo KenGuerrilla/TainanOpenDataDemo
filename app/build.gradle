@@ -37,19 +37,15 @@ android {
         viewBinding true
     }
 
-    // 會造成 Could not identify launch activity: Default Activity not found 的錯誤，
-    // 雖然可以安裝執行，但是無法進行Running Debug。
-    // 這部分先註解
-
-//    applicationVariants.all {
-//        variant ->
-//            variant.outputs.all {
-//                output ->
-//                    def date = new Date()
-//                    def formattedDate = date.format('yyyyMMdd')
-//                    outputFileName = new File("TainanOpenDataDemo_ver." + variant.versionName + "_" + formattedDate + ".akp")
-//            }
-//    }
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def date = new Date()
+                    def formattedDate = date.format('yyyyMMdd')
+                    outputFileName = new File("TainanOpenDataDemo_ver." + variant.versionName + "_" + formattedDate + ".apk")
+            }
+    }
 
 }
 
